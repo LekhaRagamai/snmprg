@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<!-- <ul class=flashes> -->
+{% for message in messages %}
+<!-- <li>{{ message }}</li> -->
+<center>
+  <h3 class="msg">{{message}}</h3>
+</center>
+{% endfor %}
+<!-- </ul> -->
+{% endif %}
+{% endwith %}
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        /* padding-top: 5%; */
+        text-align: center;
+        background: linear-gradient(rgb(85, 148, 211), rgb(216, 80, 153), rgb(190, 206, 106));
+        height: 700px;
+        /* color: #d41010; */
+    }
+
+    /* form styles */
+    form {
+        margin: 30px auto;
+        padding: 20px;
+        background-color: lightblue;
+        border-radius: 8px;
+        box-shadow: 5px 2px 10px rgb(106, 160, 155);
+        width: 350px;
+        display: inline-block;
+        /* margin: 2%; */
+        /* font-size: 10px; */
+        margin-top: 80px;
+    }
+
+    form label {
+        display: block;
+        /* color: black; */
+        font-size: 20px;
+        padding-left: 5%;
+        text-align: left;
+    }
+
+    form input[type="text"] {
+        width: 90%;
+        padding: 8px;
+        margin: 4px;
+        border-radius: 4px;
+        border: 1px solid #ca8f8f;
+        text-align: left;
+    }
+
+    .btn {
+        background-color: green;
+        color: whitesmoke;
+        border: none;
+        padding: 10px;
+        width: 100px;
+        cursor: pointer;
+        border-radius: 10px;
+        font-size: 16px;
+        /* text-align: right; */
+    }
+
+    .btn:hover {
+        background-color: blueviolet;
+        /* color: white; */
+    }
+
+    h2 {
+        color: #121512;
+        background-color: aliceblue;
+        border-style: groove;
+        /* margin: 20%; */
+        font-size: 35px;
+        margin-bottom: 20px;
+        animation-name: blink;
+        animation-iteration-count: infinite;
+        animation: blink 3s infinite;
+    }
+
+    @keyframes blink {
+        0% {
+            color: blue;
+        }
+
+        20% {
+            color: #45a049;
+        }
+
+        40% {
+            color: #9ad20c;
+        }
+
+        60% {
+            color: rgb(2, 21, 21);
+        }
+
+        80% {
+            color: rgb(205, 24, 205);
+        }
+
+        100% {
+            color: brown;
+        }
+    }
+
+    a{
+        text-decoration: none;
+    }
+</style>
+
+<body>
+    <h2>Login Account</h2>
+    <form method="POST">
+        <center>
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter useremail"><br>
+            <label>Useremail</label>
+            <input type="text" name="useremail" placeholder="Enter useremail"><br>
+            <label>Password</label>
+            <input type="text" name="psd" placeholder="Enter Password"><br>
+
+            
+            <!-- <hr> -->
+            <a href="{{url_for('forgotpass')}}">forgot password?</a><br><br>
+            <button class="btn"><a href="#">Submit</a></button>
+        
+        </center>
+    </form>
+</body>
+
+</html>
