@@ -18,14 +18,13 @@ app.secret_key='codegnan@2018'
 @app.route('/')
 def home():
     return render_template('welcome.html')
+#Create Pages
 @app.route('/create',methods=['GET','POST'])
-
-# Create page 
 def create():
     if request.method=='POST':
         print(request.form)
         uname=request.form['username']
-        uemail=request.form['useremail']
+        uemail=request.form['email']
         password=request.form['psd']
         cpassword=request.form['cpsd']
         cursor=mydb.cursor(buffered=True)
@@ -34,7 +33,7 @@ def create():
         print(var1)
         if var1[0]==0:
             gotp=genotp()
-            udata={'username':uname,'useremail':uemail,'password':password,'otp':gotp}
+            udata={'username':uname,'email':uemail,'password':password,'otp':gotp}
             subject='otp for Simple Notes App'
             body=f'verify email by using the otp {gotp}'
             sendmail(to=uemail,subject=subject,body=body)
@@ -59,7 +58,7 @@ def otp(gotp):
             else:
                 if uotp==dotp['otp']:
                     cursor=mydb.cursor(buffered=True)
-                    cursor.execute('insert into users (username,useremail,password) values(%s,%s,%s)',[dotp['username'],dotp['useremail'],dotp['password']])
+                    cursor.execute('insert into users (username,useremail,password) values(%s,%s,%s)',[dotp['username'],dotp['email'],dotp['password']])
                     mydb.commit()
                     cursor.close()
                     return redirect(url_for('login'))
@@ -301,7 +300,6 @@ def delete1(fid):
         return redirect(url_for('allfiles'))
     else:
         return redirect(url_for('login'))
-    
 
 @app.route('/logout')
 def logout():
@@ -341,7 +339,9 @@ def search():
             pattern=re.compile(f'^{strg}',re.IGNORECASE)
             if(pattern.match(search)):
                 cursor=mydb.cursor(buffered=True)
-                cursor.execute('select * from notes where nid like %s or title like %s or description like %s or created_at like %s',[search+'%',search+'%',search+'%',search+'%'])
+                cursor.execute('select userid from users where useremail=%s',[session.get('user')])
+                uid=cursor.fetchone()
+                cursor.execute('select * from notes where (nid like %s or title like %s or description like %s or created_at like %s) and userid=%s',[search+'%',search+'%',search+'%',search+'%',uid[0]])
                 sdata=cursor.fetchall()
                 cursor.close()
                 return render_template('dashboard.html',sdata=sdata)
